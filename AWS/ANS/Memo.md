@@ -10,6 +10,57 @@
     - 有効な場合、すべてのAZの登録済みターゲットにトラフィックを分散する
 - NLBはアプリケーションベースのスティッキーセッションを提供していない
 ## AWS Direct Connect
+- 基礎知識
+    - オンプレミスとAWSを専用線で接続する例
+        1. オンプレミス
+            1. ルーター
+        1. Direct Connectロケーション
+            1. ユーザールーター
+                - ユーザーが用意するか、もしくはパートナー企業に用意してもらう
+            1. Connection
+                - Direct Connectロケーション内でユーザールーターとAWSルーターを繋ぐ線
+                    - AWS側が管理
+            1. AWSルーター
+        1. AWS
+            1. VGW（Virtual Private Gateway）
+                - VPC毎に作成
+    - オンプレミスとAWSの複数のVPCを専用線で接続する例
+        - 例1
+            1. オンプレミス
+                1. ルーター
+            1. Direct Connectロケーション
+                1. ユーザールーター
+                1. Connection
+                1. AWSルーター
+            1. AWS
+                1. DXGW（Direct Connect Gateway）
+                    - 複数のVPCの前に設置する（1対多の関係となる）
+                        - 他リージョンのVPCとも接続可能
+                        - 接続可能なVPCは最大20個
+                    - VIF1本で複数のVPCと接続可能
+                1. VGW（Virtual Private Gateway）
+        - 例2
+            1. オンプレミス
+                1. ルーター
+            1. Direct Connectロケーション
+                1. ユーザールーター
+                1. Connection
+                1. AWSルーター
+            1. AWS
+                1. TGW（Transit Gateway）
+                    - 21個以上のVPCを接続するか、またはVPC間で接続をする場合、TGWを使用する
+                        - VPC間での相互接続が可能であるため、IPセグメントの重複に注意
+                    - VIFはトランジットVIFにする必要がある
+                1. VGW（Virtual Private Gateway）
+    - VIF（Virtual Private InterFace）
+        - Connection（物理的な接続線）の上に仮想的な専用線を作成するイメージ
+        - 種類
+            - プライベートVIF
+                - VPCへプライベートIPで接続するための線
+                - VIFとVPCは1対1の関係
+            - パブリックVIF
+                - AWSへパブリックIPで接続するための線
+            - トランジットVIF
 - AWS Direct Connect SiteLink
     - 異なるAWSリージョン間やオンプレミス間でのデータ転送を最適化し、接続の冗長性と信頼性を向上させることができる
     - 既存のトランジットVIFで有効にすることにより、新たな設備投資や追加のゲートウェイ構築を行うことなく、即時に高い接続信頼性を実現できる
@@ -44,3 +95,5 @@
         - East-West（VPCからVPC）やNorth-South（インターネットやオンプレミスへの通信）のトラフィックを集約する検査用VPCにデプロイするモデル
     - 複合型
         - 上記モデルの組み合わせ。例として、インターネットからVPC内への通信はここのVPCにデプロイしたNetwork Firewallで検査、VPC同士の通信は検査用VPCにデプロイしたNetwork Firewallで検査するようなモデル
+- VPC Reachability Analyzer
+    - VPC内の2つのエンドポイント間、または複数のVPC間で、通信の到達性に関する問題を解決することが可能なネットワーク診断ツール
