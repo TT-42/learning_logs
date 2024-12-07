@@ -97,3 +97,11 @@
         - 上記モデルの組み合わせ。例として、インターネットからVPC内への通信はここのVPCにデプロイしたNetwork Firewallで検査、VPC同士の通信は検査用VPCにデプロイしたNetwork Firewallで検査するようなモデル
 - VPC Reachability Analyzer
     - VPC内の2つのエンドポイント間、または複数のVPC間で、通信の到達性に関する問題を解決することが可能なネットワーク診断ツール
+- AWS Network Manager Route Analyzer
+    - ルートの視覚化と分析に役立ち、Transit Gateway間の通信問題を診断するのに適しているツール
+        - VPCのルートテーブルの分析には適していない
+- Route53でのDNSSEC署名の設定
+    1. Route53においてDNSSECを有効にする
+    1. AWS KMSを用いてキー署名キー（KSK）を作成する
+    1. 親ゾーンに委任署名者（DS）レコードを追加する
+        - サブドメインと親ドメインの間に信頼チェーンが形成される
