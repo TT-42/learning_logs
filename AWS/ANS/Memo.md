@@ -32,7 +32,7 @@
                     - AWS側が管理
             1. AWSルーター
         1. AWS
-            1. VGW（Virtual Private Gateway）
+            1. 仮想プライベートゲートウェイ（VGW：Virtual Private Gateway）
                 - VPC毎に作成
     - オンプレミスとAWSの複数のVPCを専用線で接続する例
         - 例1
@@ -49,7 +49,7 @@
                         - 接続可能なVPCは最大20個
                         - VPC間のトラフィックルーティングには適していない
                     - VIF1本で複数のVPCと接続可能
-                1. VGW（Virtual Private Gateway）
+                1. 仮想プライベートゲートウェイ（VGW：Virtual Private Gateway）
         - 例2
             1. オンプレミス
                 1. ルーター
@@ -62,7 +62,7 @@
                     - 21個以上のVPCを接続するか、またはVPC間で接続をする場合、TGWを使用する
                         - VPC間での相互接続が可能であるため、IPセグメントの重複に注意
                     - VIFはトランジットVIFにする必要がある
-                1. VGW（Virtual Private Gateway）
+                1. 仮想プライベートゲートウェイ（VGW：Virtual Private Gateway）
     - VIF（Virtual Private InterFace）
         - Connection（物理的な接続線）の上に仮想的な専用線を作成するイメージ
         - 種類
