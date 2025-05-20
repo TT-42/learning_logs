@@ -16,6 +16,21 @@
         1. ホストOSにてTryHackMeへログイン
         1. ホストOSにて任意のルームのターゲットマシンを起動する
     - `7DaysTryHacking 1`として環境構築直後の状態をスナップショットとして保存
+    - mitmproxyのapt installが失敗する
+        - mitmproxy 11.1.3のパッケージには`/usr/lib/python3/dist-packages/mitmproxy/tools/web/app.py`の231行目で構文エラー`def _require_auth[**P, R](`が含まれており、これはPythonの正しい構文ではないため
+        - このバージョンのmitmproxyは、Kali Linuxのarm64環境やPython 3.11.9など一部の環境でインストール時に必ずこのエラーが出ます
+        - 以下コマンドで一旦削除した
+            ```
+            sudo apt remove --purge mitmproxy
+            sudo apt autoremove
+            ```
+        - もし必要であれば以下コマンドで再インストール
+            ```
+            sudo apt update
+            sudo apt install python3 python3-pip python3-dev libffi-dev libssl-dev -y
+            sudo pip3 install mitmproxy
+            mitmproxy --version
+            ```
 
 ## Basic Pentesting
 
@@ -129,3 +144,14 @@
                 exploit
                 ```
 
+## OWASP Juice Shop
+
+- Burp Suite
+    - PortSwigger社が開発したWebアプリケーションのセキュリティテストを行うための統合プラットフォーム
+    - 主要な機能
+        - Proxy：ブラウザとWebサーバ間の通信をインターセプト（傍受）し、内容の確認・編集ができる
+        - Scanner：Webアプリの脆弱性を自動で検出（Professional Editionのみ）
+        - Intruder：パラメータを自動で変更しながら攻撃を試行（ブルートフォースや辞書攻撃など）
+        - Repeater：任意のリクエストを繰り返し送信し、レスポンスを比較・分析
+        - Spider：Webサイトをクロールし、構造やリンクを自動で把握
+        - Extender：拡張機能を追加して機能を拡張
